@@ -1,0 +1,36 @@
+<html>
+<head>
+  <title>Mercure Hub subscriber example on Stackhero.io</title>
+</head>
+<body>
+  <div id="main" style="font-size: 30px; text-align: center;">Connection...</div>
+
+  <script type="application/javascript">
+    const endpoint = 'XXXXXX.stackhero-network.com'; // PUT YOUR SERVER URL
+
+    const url = new URL('https://' + endpoint + '/hub');
+    const main = document.getElementById('main');
+
+    // Add topics to listen to
+    url.searchParams.append('topic', `https://${endpoint}` + '/users/1234');
+    url.searchParams.append('topic', `https://${endpoint}` + '/books/1');
+
+    // Start SSE
+    const eventSource = new EventSource(url);
+
+    eventSource.onerror = e => {
+      console.error(e);
+      main.innerHTML = 'Error when connecting to Mercure Hub ' + endpoint + '. Did you allowed anonymous subscribers on Stackhero\'s console?';
+    }
+
+    eventSource.onopen = () => main.innerHTML = 'Waiting for datas... You should start the Node.js script (npm run start)';
+
+    // The callback will be called every time an update is published
+    eventSource.onmessage = e => {
+      const data = JSON.parse(e.data);
+      console.log(data);
+      main.innerHTML = '<img src="book.jpg" style="height: 200px"><br /><br />Current stock: ' + data.stockCount + ' books';
+    }
+  </script>
+</body>
+</html>
