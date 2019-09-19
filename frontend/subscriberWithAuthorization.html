@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+
+    <!-- Loading the event source polyfill, see https://github.com/Yaffle/EventSource -->
+    <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/event-source-polyfill@1.0.8/src/eventsource.min.js"></script>
+
+    <script type="application/javascript">
+      const endpoint = '<XXXXXX>.stackhero-network.com'; // PUT YOUR SERVER URL
+
+      // Caution: this is not your subscriber JWT defined in Stackhero's console.
+      // To get you subscriber JWS (with a final S, not T like in JWT), you have to generate it on the server side.
+      // An example is available in the `backend/subscriberJwsGenerator.js`
+      const subscriberJws = ''; // PUT YOUR SUBSCRIBER JWS
+
+
+      const url = new URL('https://' + endpoint + '/hub');
+
+      // Add topic to listen to
+      url.searchParams.append('topic', `https://${endpoint}` + '/users/1234');
+      url.searchParams.append('topic', `https://${endpoint}` + '/books/1');
+
+
+      // Note: we use EventSourcePolyfill here that let us adding headers (the native EventSource doesn't not allow that).
+      var eventSource = new EventSourcePolyfill(
+        url,
+        {
+          headers: {
+            Authorization: `Bearer ${subscriberJws}`
+          }
+        }
+      );
+
+
+      // The callback will be called every time an update is published
+      eventSource.onmessage = e => console.log(e);
+    </script>
+  </head>
+  <body>
+    Open your console to see the magic happens :)
+  </body>
+</html>
