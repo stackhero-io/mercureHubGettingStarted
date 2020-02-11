@@ -37,7 +37,7 @@ const publisherJwtKey = process.env.MERCURE_PUBLISHER_JWT_KEY;
     console.log(`Sending datas: ${JSON.stringify(data)}`);
     await request.post(
       {
-        url: `https://${endpoint}/hub`,
+        url: `https://${endpoint}/.well-known/mercure`,
         auth: { bearer },
         form: { topic, data: JSON.stringify(data) },
         agentOptions: { rejectUnauthorized: false } // Just for debug, should always be set to true or commented!

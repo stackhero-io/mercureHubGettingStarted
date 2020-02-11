@@ -15,7 +15,7 @@
       const subscriberJws = ''; // PUT YOUR SUBSCRIBER JWS
 
 
-      const url = new URL('https://' + endpoint + '/hub');
+      const url = new URL('https://' + endpoint + '/.well-known/mercure');
 
       // Add topic to listen to
       url.searchParams.append('topic', `https://${endpoint}` + '/users/1234');
