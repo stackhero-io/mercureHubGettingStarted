@@ -26,7 +26,10 @@ const publisherJwtKey = process.env.MERCURE_PUBLISHER_JWT_KEY;
     const bearer = jwt.sign(
       { mercure: { publish: [ topic ] } },
       publisherJwtKey,
-      { expiresIn: 60 } // Bearer expiring in one minute
+      {
+        expiresIn: 6 * 60, // Bearer expiring in one minute
+        noTimestamp: true // Do not add "issued at" information to avoid error "Token used before issued"
+      }
     );
 
 
