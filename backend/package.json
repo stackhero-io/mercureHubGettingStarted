@@ -6,6 +6,7 @@
   "dependencies": {
     "dotenv": "^6.2.0",
     "jsonwebtoken": "^8.5.1",
+    "eventsource": "^2.0.2",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5"
   },
